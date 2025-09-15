@@ -1,7 +1,7 @@
  /* ========== 1. MANUAL DATA ========== */
 const directories = [
   [ // Directory 1
-    { id: 2510376101, name: "MD. IMRAN ALI", phone: "+8801704209861", email: "imran.28279@gmail.com", address: "Mithapukur, Rangpur", facebook: "facebook.com/dekha.hobe.abar.konodin", img: "img/imran.jpg"},
+    { id: 2510376101, name: "MD. IMRAN ALI", phone: "+8801704209861", email: "imran.28279@gmail.com", address: "Mithapukur, Rangpur", facebook: "facebook.com/dekha.hobe.abar.konodin", img: "img/Imran.jpg"},
     { id: 2511076102, name: "SAMIO AWAL USNO", phone: "+8801777965285", email: "", address: "Ishurdi, Dhaka", facebook: "facebook.com/samio.usno", img: "img/usno.jpg"},
     { id: 2510676103, name: "MD. SANJID OMAR YASIR CHOWDHURY", phone: "+8801311773046", email: "", address: "Uttara, Dhaka", facebook: "facebook.com/msoyc.msoyc", img: "img/yasir.jpg"},
     { id: 2510576104, name: "MD. AKHLASUR RAHMAN", phone: "+8801331694471", email: "", address: "Jamalpur, Dhaka", facebook: "facebook.com/akhlasur.rahman.366183", img: "img/akhlasur.jpg"},
@@ -16,7 +16,7 @@ const directories = [
     { id: 2510776114, name: "MD. SULAIMAN", phone: "+8801872335329", email: "", address: "Jamalpur, Dhaka", facebook: "facebook.com/mdsolaiman.solaiman.58958", img: "img/sulaiman.jpg"},
     { id: 2512476116, name: "MST. RUHI AKHTER", phone: "[HIDDEN]", email: "", address: "Joypurhat", facebook: "facebook.com/ruhi.kabir.2024", img: "img/anonymous.jpg"},
     { id: 2510476117, name: "GAZI MANZURUL MAOLA", phone: "+8801889132969", email: "", address: "", facebook: "", img: "img/anonymous.jpg"},
-    { id: 2510476118, name: "MOMEN SIDDIKY MILON", phone: "+8801638237667", email: "", address: "Tangail", facebook: "facebook.com/MominSiddikyMilon", img: "img/momin.jpg"},
+    { id: 2510476118, name: "MOMEN SIDDIKY MILON", phone: "+8801638237667", email: "", address: "Tangail", facebook: "facebook.com/MominSiddikyMilon", img: "img/Momin.jpg"},
     { id: 2510676119, name: "ABDULLAH AL MOHIT", phone: "+8801986438847", email: "", address: "Cumilla", facebook: "facebook.com/abdullahal.mohit.3956", img: "img/mohit.jpg"},
     { id: 2510476120, name: "MD. JAHID HASAN", phone: "+8801716685064", email: "", address: "Mohanpur, Rajshahi", facebook: "facebook.com/jahid.hasan.613286", img: "img/jahid.jpg"},
     { id: 2511076121, name: "SREE NIRNOY KUMAR ROY", phone: "+8801312909553", email: "", address: "Kushtia", facebook: "facebook.com/nirnoy.kumar.39", img: "img/nirnoy.jpg"},
@@ -32,7 +32,7 @@ const directories = [
     { id: 2510476132, name: "MD. RIFAT UL ISLAM", phone: "", email: "", address: "Natore", facebook: "facebook.com/profile.php?id=61576329905283", img: "img/anonymous.jpg" },
     { id: 2510976133, name: "IMTIAZ AHMED", phone: "", email: "", address: "Pabna", facebook: "facebook.com/imtiaz.ahmed.25027", img: "img/imtiaz.jpg" },
     { id: 2510676134, name: "SAMEEN YEASAR", phone: "", email: "", address: "Khulna", facebook: "facebook.com/sameenyeasar25", img: "img/sameen.jpg" },
-    { id: 2510976135, name: "ASHRAFUL ISLAM SAKIB", phone: "", email: "", address: "Chandpur", facebook: "facebook.com/ashrafulislam.lll", img: "img/ashraful.jpg" },
+    { id: 2510976135, name: "ASHRAFUL ISLAM SAKIB", phone: "", email: "", address: "Chandpur", facebook: "facebook.com/ashrafulislam.lll", img: "img/Ashraful.jpg" },
     { id: 2510576136, name: "MD. RAFIQ MIA", phone: "", email: "", address: "Mymunsingh", facebook: "facebook.com/mohammad.rafiq.57404", img: "img/rafiq.jpg" },
     { id: 2510876137, name: "MD. SEDRATUL MUNTAHAR", phone: "", email: "", address: "Mohammadpur, Dhaka", facebook: "facebook.com/muntahar.29", img: "img/sedratul.png" },
     { id: 2510976138, name: "MD. HASIMUZZAMAN", phone: "", email: "", address: "Rajshahi", facebook: "img/anonymous.jpg", img: "img/anonymous.jpg" },
@@ -305,3 +305,4 @@ const directories = [
     { id: 1810976151, name: "MD. RAHMAT-E-RABBI", phone: "", email: "", address: "", facebook: "", img: "" },
   ]
 ];
+
