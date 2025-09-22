@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My University Family</title>
+    <script src="https://i28279.github.io/my-family/data.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="grid-bg scanlines">
+
+    <header>
+      <div class="title">
+        <span class="glitchHead" style="font-family: cursive;" data-text="My University Family">My University Family</span>
+      </div>
+      <div class="helpNsearch">
+        <div class="badge" id="helpBadge" style="cursor: pointer;">❔</div>
+        <div class="badge">
+          <div class="search" onclick="document.querySelector('.searchUI').style.display='block'">🔍</div>
+          <div class="searchUI">
+            <input type="text" id="searchInput" class="badge" placeholder="Search by name or ID...">
+            <button id="closeSearch" onclick="document.querySelector('.searchUI').style.display='none'">✕</button>
+          </div>
+        </div>
+      </div>
+      <!-- Help Modal -->
+      <div class="overlay" id="helpOverlay" role="dialog" aria-modal="true">
+        <div class="modal" id="helpModal">
+          <div class="modal-head">
+            <div class="chip">HELP</div>
+            <div class="controls">
+              <button class="btn" id="closeHelp">✕ Close</button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div id="helpContent"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Five gallery blocks -->
+      <section class="gallery-block">
+        <div class="title"><span class="databreak"  data-text="Vortex - 33">Vortex - 33</span><span class="badge">RU-72 |
+            CSE-33</span></div>
+        <div class="gallery" id="gallery-1"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="HEURISTIC - 32">HEURISTIC - 32</span><span class="badge">RU-71 | CSE-32</span>
+        </div>
+        <div class="gallery" id="gallery-2"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="Batch - 31">Batch - 31</span><span class="badge">RU-70 | CSE-31</span>
+        </div>
+        <div class="gallery" id="gallery-3"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="Batch - 30">Batch - 30</span><span class="badge">RU-69 | CSE-30</span>
+        </div>
+        <div class="gallery" id="gallery-4"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="Batch - 29">Batch - 29</span><span class="badge">RU-68 | CSE-29</span>
+        </div>
+        <div class="gallery" id="gallery-5"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="Batch - 28">Batch - 28</span><span class="badge">RU-67 | CSE-28</span>
+        </div>
+        <div class="gallery" id="gallery-6"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="Batch - 27">Batch - 27</span><span class="badge">RU-66 | CSE-27</span>
+        </div>
+        <div class="gallery" id="gallery-7"></div>
+      </section>
+      <section class="gallery-block">
+        <div class="title">
+          <span class="databreak" data-text="Batch - 26">Batch - 26</span><span class="badge">RU-65 | CSE-26</span>
+        </div>
+        <div class="gallery" id="gallery-8"></div>
+      </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal" id="modal">
+        <div class="modal-head">
+          <div class="chip" id="modalTag">profile • 00</div>
+          <div class="controls">
+            <button class="btn" id="prevBtn">← Prev</button>
+            <button class="btn" id="nextBtn">Next →</button>
+            <button class="btn" id="closeBtn">✕ Close</button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="portrait"><img id="modalImg" src="" alt="Selected profile portrait" /></div>
+          <div class="info">
+            <h2 id="modalTitle">Agent 00</h2>
+            <div class="fields" id="fields"></div>
+          </div>
+        </div>
+        <div class="footer-hint">Tip: Use ← → to navigate, Esc to close</div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">Loaded profiles</div>
+
+    <script>
+     
+      /* ========== 2. RENDER GALLERIES ========== */
+      const gallerySections = [
+        document.getElementById('gallery-1'),
+        document.getElementById('gallery-2'),
+        document.getElementById('gallery-3'),
+        document.getElementById('gallery-4'),
+        document.getElementById('gallery-5'),
+        document.getElementById('gallery-6'),
+        document.getElementById('gallery-7'),
+        document.getElementById('gallery-8'),
+      ];
+
+      function createCard(profile, dirIndex, idxInDir, container) {
+        const card = document.createElement('button');
+        card.className = 'card';
+        card.dataset.dir = dirIndex;
+        card.dataset.idx = idxInDir;
+        card.setAttribute('aria-label', `${profile.name} — open profile`);
+        card.innerHTML = `
+            <div class="thumb"><img loading="lazy" src="${profile.img}" alt="${profile.name}" /></div>
+            <div class="meta">
+              <div class="tag">${profile.name}</div>
+              <div class="tag">ID: ${profile.id}</div>
+            </div>
+            <span class="focus-ring" aria-hidden="true"></span>
+          `;
+        card.addEventListener('click', () => openModal(dirIndex, idxInDir));
+        container.appendChild(card);
+      }
+
+      directories.forEach((dirArray, sectionIdx) => {
+        const container = gallerySections[sectionIdx];
+        dirArray.forEach((profile, idxInDir) => {
+          createCard(profile, sectionIdx, idxInDir, container);
+        });
+      });
+
+      /* ========== 3. MODAL LOGIC ========== */
+      const overlay = document.getElementById('overlay');
+      const modalImg = document.getElementById('modalImg');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalTag = document.getElementById('modalTag');
+      const fields = document.getElementById('fields');
+      const closeBtn = document.getElementById('closeBtn');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      let typingTimers = [];
+      let currentDir = 0;
+      let currentIdx = 0;
+
+      function makeRow(label, value) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `<div class="label">${label}</div><div class="value"></div>`;
+        typeText(row.querySelector('.value'), value);
+        return row;
+      }
+
+      function typeText(target, text) {
+        target.textContent = '';
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor';
+        cursor.setAttribute('aria-hidden', 'true');
+        let i = 0;
+        function step() {
+          target.textContent = text.slice(0, i++);
+          if (i <= text.length) {
+            typingTimers.push(setTimeout(step, Math.random() * 20 + 30));
+          } else {
+            cursor.remove();
+          }
+        }
+        target.appendChild(cursor);
+        step();
+      }
+
+      function clearTyping() {
+        typingTimers.forEach(t => clearTimeout(t));
+        typingTimers = [];
+      }
+
+      // Alloted/Residential Hall
+      const Hax = {
+        101: "SHER-E BANGLA FAZLUL HAQUE HALL",
+        102: "SHAH MAKHDUM HALL",
+        103: "NAWAB ABDUL LATIF HALL",
+        104: "SYED AMER ALI HALL",
+        105: "SHAHEED SHAMSUZZOHA HALL",
+        106: "SHAHEED HABIBUR RAHMAN HALL",
+        107: "MATIHAR HALL",
+        108: "MADAR BUX HALL",
+        109: "HUSEYN SHAHEED SUHRAWARDY HALL",
+        110: "SHAHID ZIAUR RAHMAN HALL",
+        111: "BIJOY-24 HALL",
+        120: "MANNUJAN HALL",
+        121: "ROKEYA HALL",
+        122: "TAPASHI RABEYA HALL",
+        123: "BEGUM KHALEDA ZIA HALL",
+        124: "RAHAMATUNNESA HALL",
+        130: "JULY-36 HALL"
+      };
+
+      function fillModal(profile) {
+        modalImg.src = profile.img;
+        modalImg.alt = profile.name;
+        modalTitle.textContent = `Agent ${profile.id}`;
+        modalTag.textContent = `profile • ${String(profile.id).padStart(2, '0')}`;
+        fields.innerHTML = '';
+        let roll = String(profile.id);
+        let hallCode = +roll.slice(2, 5); 
+        let hallName = Hax[hallCode]; 
+
+
+        fields.appendChild(makeRow('Name', profile.name));
+        fields.appendChild(makeRow('Phone', profile.phone));
+        fields.appendChild(makeRow('Email', profile.email));
+        fields.appendChild(makeRow('Address', profile.address));
+        fields.appendChild(makeRow('Facebook ID', profile.facebook));
+        fields.appendChild(makeRow('Hall', hallName));
+      }
+
+      function openModal(dirIndex, idxInDir) {
+        currentDir = dirIndex;
+        currentIdx = idxInDir;
+        clearTyping();
+        fillModal(directories[currentDir][currentIdx]);
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        clearTyping();
+      }
+
+      function switchProfile(next = true) {
+        const dirArray = directories[currentDir];
+        currentIdx = next
+          ? (currentIdx + 1) % dirArray.length
+          : (currentIdx - 1 + dirArray.length) % dirArray.length;
+        modalImg.style.opacity = '0';
+        setTimeout(() => {
+          clearTyping();
+          fillModal(dirArray[currentIdx]);
+          modalImg.style.opacity = '1';
+        }, 160);
+      }
+
+      /* ========== 4. EVENT LISTENERS ========== */
+      closeBtn.addEventListener('click', closeModal);
+      nextBtn.addEventListener('click', () => switchProfile(true));
+      prevBtn.addEventListener('click', () => switchProfile(false));
+      overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+      document.addEventListener('keydown', e => {
+        if (!overlay.classList.contains('active')) return;
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowRight') switchProfile(true);
+        if (e.key === 'ArrowLeft') switchProfile(false);
+      });
+
+      /* ========== 5. TOAST ON LOAD ========== */
+      const toast = document.getElementById('toast');
+      window.addEventListener('load', () => {
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2200);
+        });
+      });
+    </script>
+    <script>
+      const helpBadge = document.getElementById('helpBadge');
+      const helpOverlay = document.getElementById('helpOverlay');
+      const helpContent = document.getElementById('helpContent');
+      const closeHelp = document.getElementById('closeHelp');
+
+      const helpText = `<span>Click a card to see informations.</span>
+                        <span>Working in progress. Thanks for your patience.</span>
+                        <span>আসসালামু আলাইকুম, ভাই/আপু আমি <Your-Name> আমি রাজশাহী বিশ্ববিদ্যালয়ের কম্পিউটার বিজ্ঞান ও প্রকৌশল বিভাগে ২০২৪-২৫ শিক্ষাবর্ষে অধ্যয়নরত। আমার বাসা <Your-Home-Address></span>
+                        <span><b>Hall Code:</b> <br>
+                          101: SHER-E BANGLA FAZLUL HAQUE HALL<br>
+                          102: SHAH MAKHDUM HALL<br>
+                          103: NAWAB ABDUL LATIF HALL<br>
+                          104: SYED AMER ALI HALL<br>
+                          105: SHAHEED SHAMSUZZOHA HALL<br>
+                          106: SHAHEED HABIBUR RAHMAN HALL<br>
+                          107: MATIHAR HALL<br>
+                          108: MADAR BUX HALL<br>
+                          109: HUSEYN SHAHEED SUHRAWARDY HALL<br>
+                          110: SHAHID ZIAUR RAHMAN HALL<br>
+                          111: BIJOY-24 HALL<br>
+                          120: MANNUJAN HALL<br>
+                          121: ROKEYA HALL<br>
+                          122: TAPASHI RABEYA HALL<br>
+                          123: BEGUM KHALEDA ZIA HALL<br>
+                          124: RAHAMATUNNESA HALL<br>
+                          130: JULY-36 HALL
+                        </span>
+                        <span>Assalamu alaikum, <br> Hey I\'m Imran Ali. Thanks a lot 💋</span>`;
+
+      let helpTimers = [];
+
+      function typeHelpText(text) {
+        helpContent.innerHTML = '';
+        let i = 0;
+
+        function step() {
+          helpContent.innerHTML = text.slice(0, i);
+          if (i < text.length) {
+            i++;
+            helpTimers.push(setTimeout(step, 0.1)); // medium speed
+          }
+        }
+
+        step();
+      }
+
+      function openHelp() {
+        helpOverlay.classList.add('active');
+        typeHelpText(helpText);
+      }
+
+      function closeHelpModal() {
+        helpOverlay.classList.remove('active');
+        helpTimers.forEach(t => clearTimeout(t));
+        helpTimers = [];
+      }
+
+      helpBadge.addEventListener('click', openHelp);
+      closeHelp.addEventListener('click', closeHelpModal);
+      helpOverlay.addEventListener('click', e => {
+        if (e.target === helpOverlay) closeHelpModal();
+      });
+    </script>
+    <script>
+      const searchInput = document.getElementById('searchInput');
+      const cards = document.querySelectorAll('.card'); // সব কার্ড সিলেক্ট করো
+
+      searchInput.addEventListener('input', e => {
+        const term = e.target.value.trim().toLowerCase();
+
+        cards.forEach(card => {
+          const name = card.querySelector('.tag').textContent.toLowerCase();      // নাম ট্যাগ
+          const idTag = card.querySelectorAll('.tag')[1].textContent.toLowerCase(); // আইডি ট্যাগ (দ্বিতীয়টি)
+          
+          if (!term || name.includes(term) || idTag.includes(term)) {
+            card.style.display = '';  // মিল পেলে দেখাও
+          } else {
+            card.style.display = 'none'; // না মিললে হাইড করো
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
